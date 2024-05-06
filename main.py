@@ -51,48 +51,107 @@ def main():
             Year = input('enter year of admission: ')
             add_student(name, gender, fathers_name, address, date_of_birth, mobile_number, course_id,Year)
             #add_student("Sanchit Shekhar", "Male", "Janny Depp", "123 Main St", "01-01-2020", "+919876543223", "CS2", '1st')
+        
         elif choice == '2':
-            # Call update_student_info function
-            id = input('enter sturent  id: ')
-            f_name = input('enter father name: ') 
-            Date = input('enter DOB in DD-MM-YYYY format: ') 
-            m_number = '+91' + input('enter mobile no: ')
-            c_id = input('enter course id: ')
-            update_student_info(student_id=id,fathers_name=f_name, DOB=Date, mobile_number=m_number, course_id=c_id)
-            # update_student_info(student_id=104, fathers_name="New father", DOB="01-01-2010", mobile_number="+919876543210", course_id="CS4")
+        # Call update_student_info function
+            student_id = input('Enter student ID: ')
+            update_fields = {}
+            # Prompt the user for fields to update
+            print("Enter the fields you want to update and their new values, or leave blank to stop:")
+            while True:
+                field = input("Field name ('fathers_name', 'DOB', 'mobile_number', 'course_id') or leave blank to stop: ").strip()
+                if not field:
+                    break
+                value = input(f"Enter new value for {field}: ").strip()
+                update_fields[field] = value
+            update_student_info(student_id, **update_fields)
+
+
         elif choice == '3':
             # Call view_student_details function
-            view_student_details(102)
+            student_id = input("Enter student ID: ")
+            valid_columns = ['name', 'gender', 'fathers_name', 'address', 'DOB', 'mobile_number', 'course_id', 'Year']
+            print("Valid column options:", valid_columns)
+            columns = input("Enter the columns you want to view (comma-separated), or leave blank to view all details: ").strip().split(',')
+            view_student_details(student_id, *columns)
+
         elif choice == '4':
-            # Call list_students function
-            course_id = input('enter course id CS1/2/3/4 ME1/2/3/4: ')
-            year_of_study = input('enter year')
-            list_students(course=course_id, year=year_of_study)
+            filters = {}
+            print("Enter the filters you want to apply (optional), or leave blank to skip:")
+            course = input("Enter course ID CS1/2/3/4 ME1/2/3/4: ").strip()
+            if course:
+                filters['course'] = course
+            
+            year = input("Enter year of study: ").strip()
+            if year:
+                filters['year'] = year
+            
+            gender = input("Enter gender: ").strip()
+            if gender:
+                filters['gender'] = gender
+            
+            list_students(**filters)
+
+
         elif choice == '5':
             # Call student_past_courses function
-            student_past_courses(104)
+            past_course = int(input('Enter the student_id :'))
+            student_past_courses(past_course)
         elif choice == '6':
             # Call delete_student function
-            delete_student(103)
+            delete = int(input('Enter the student_id :'))
+            delete_student(delete)
         elif choice == '7':
-            # Call add_teacher function
-            add_teacher('John Danny', '123 Main St', '+919876543210', 'Male', 'Math,Physics', '04-02-2023')
+    # Call add_teacher function
+            print("Enter the details for the new teacher:")
+            name = input("Name: ")
+            address = input("Address: ")
+            mobile_number = '+91' + input("Mobile Number (10 digits): ")
+            gender = input("Gender: ")
+            teaching_specialties = input("Teaching Specialties (comma-separated): ")
+            date_of_joining = input("Date of Joining (in dd-mm-yyyy format): ")
+            add_teacher(name, address, mobile_number, gender, teaching_specialties, date_of_joining)
+
         elif choice == '8':
             # Call update_teacher_info function
-            update_teacher_info(6, mobile_number="+919876543219", teaching_specialties="CS1,CS2,CS4", course_allotted="CS1,CS2")
-        elif choice == '9':
+            teacher_id = input('Enter teacher ID: ')
+            update_fields = {}
+            # Prompt the user for fields to update
+            print("Enter the fields you want to update and their new values, or leave blank to stop:")
+            while True:
+                field = input("Field name ('name', 'address', 'mobile_number', 'gender', 'teaching_specialties', 'date_of_joining', 'course_allotted') or leave blank to stop: ").strip()
+                if not field:
+                    break
+                value = input(f"Enter new value for {field}: ").strip()
+                update_fields[field] = value
+            update_teacher_info(teacher_id, **update_fields)
+
+
+        elif choice == '9':       
+            # Print available fields for viewing teacher details
+            available_fields = ['name', 'address', 'mobile_number', 'gender', 'teaching_specialties', 'date_of_joining', 'course_allotted']
+            print("Available fields for viewing teacher details:", ', '.join(available_fields))
+
             # Call view_teacher_details function
-            view_teacher_details(8,'name','course_allotted')
+            teacher_id = input('Enter teacher ID: ')
+            fields_input = input("Enter the fields you want to view (comma-separated), or leave blank to view all details: ").strip()
+            selected_fields = fields_input.split(',') if fields_input else None
+            view_teacher_details(teacher_id, *selected_fields if selected_fields else ())
+
         elif choice == '10':
-            # Call list_teachers function
-            list_teachers(course_allotted = 'CS1')
+            # Prompt the user for criteria to list teachers
+            gender = input("Enter gender (optional, press Enter to skip): ").strip()
+            course_allotted = input("Enter course allotted (optional, press Enter to skip): ").strip()
+
+            # Call list_teachers function with user-provided criteria
+            list_teachers(gender, course_allotted)
+
         elif choice == '11':
-            # Call delete_teacher_record function
-            delete_teacher_record(8)
+            delete = int(input('enter teacher_id :'))
+            delete_teacher_record(delete)
         else:
             print("Invalid choice. Please enter a valid option.")
     cursor.close()
     conn.close()
-    
 if __name__ == "__main__":
     main()

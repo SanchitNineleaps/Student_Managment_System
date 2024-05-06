@@ -60,6 +60,7 @@ def add_student(name, gender, fathers_name, address, date_of_birth, mobile_numbe
 
 
 # Function to update student information with constraints
+
 def update_student_info(student_id, **kwargs):
     cursor = conn.cursor()
     # Check if the student exists
@@ -92,7 +93,7 @@ def update_student_info(student_id, **kwargs):
                 return
         elif key == 'course_id':
             if student[8] != '1st':
-                print("Error: Course can be only updated for 1st year students.")
+                print("Error: Course can only be updated for 1st year students.")
                 return
 
     # Prepare the update query
@@ -111,6 +112,7 @@ def update_student_info(student_id, **kwargs):
     cursor.execute(update_query, update_values)
     conn.commit()
     print("Student information updated successfully!")
+   
 # Example:
 #update_student_info(student_id=104,fathers_name="New father", DOB="01-01-2010", mobile_number="+919876543210", course_id="CS4")
 
@@ -144,8 +146,7 @@ def list_students(course=None, year=None, gender=None):
         print("No students found matching the criteria.")
     
 # Example:
-#list_students(course = 'CS1',year='1st')  # To list all students
-
+#list_students(course = 'CS1',year='1st')  
 
 
 # Function to view specific student details 
@@ -209,12 +210,33 @@ def delete_student(student_id):
     try:
         # Update the 'soft_delete' column to 1 for the specified student_id
         cursor.execute("UPDATE students SET soft_delete = 1 WHERE student_id = %s", (student_id,))
-        conn.commit()
-        print("Student record soft deleted successfully!")
+        if cursor.rowcount == 0:
+            print(f"No student found with ID {student_id}.")
+        else:
+            conn.commit()
+            print("Student record deleted successfully!")
     except mysql.connector.Error as err:
         print(f"Error: {err}")
+
+
+
+
+
+
+
+# def delete_student(student_id):
+#     cursor = conn.cursor()
+#     try:
+#         # Update the 'soft_delete' column to 1 for the specified student_id
+#         cursor.execute("UPDATE students SET soft_delete = 1 WHERE student_id = %s", (student_id,))
+#         conn.commit()
+#         print("Student record soft deleted successfully!")
+#     except mysql.connector.Error as err:
+#         print(f"Error: {err}")
     
 
 # Example usage:
 #delete_student(103)  # Soft delete student with ID 1
 #view_student_details(103)
+
+
