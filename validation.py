@@ -10,6 +10,7 @@ def authenticate_user():
     # Perform authentication logic here
     # You can compare the entered user_id and password with stored credentials
     # For simplicity, let's assume a hardcoded user_id and password
+    
     if user_id == "admin" and password == "password":
         return True
     else:

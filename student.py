@@ -218,4 +218,3 @@ def delete_student(student_id):
 # Example usage:
 #delete_student(103)  # Soft delete student with ID 1
 #view_student_details(103)
-

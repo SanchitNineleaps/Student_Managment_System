@@ -211,4 +211,5 @@ def list_teachers(gender=None, course_allotted=None):
     except mysql.connector.Error as err:
         print(f"Error: {err}")
     
+    
 #list_teachers(course_allotted = 'CS1')

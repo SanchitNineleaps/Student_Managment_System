@@ -4,4 +4,5 @@ conn = mysql.connector.connect(
     user="root",
     password="nineleaps",
     database="student_management_system"
+    
 )

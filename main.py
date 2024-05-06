@@ -93,5 +93,6 @@ def main():
             print("Invalid choice. Please enter a valid option.")
     cursor.close()
     conn.close()
+    
 if __name__ == "__main__":
     main()
