@@ -1,0 +1,8 @@
+
+faker
+getindianname
+phonenumbers
+pandas
+datetime
+mysql.connector-python
+numpy
